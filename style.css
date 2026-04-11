@@ -1,0 +1,7 @@
+body { background: linear-gradient(135deg, #71b7e6, #9b59b6); font-family: sans-serif; direction: rtl; margin: 0; padding: 20px; }
+.container { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-width: 400px; margin: auto; text-align: center; }
+input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+button { width: 100%; padding: 10px; background: #27ae60; color: white; border: none; border-radius: 5px; cursor: pointer; }
+.marquee-bar { background: #333; color: #ffd700; padding: 10px; position: fixed; top: 0; width: 100%; font-weight: bold; }
+table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+th, td { border: 1px solid #ddd; padding: 8px; font-size: 12px; }
