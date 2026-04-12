@@ -7,9 +7,18 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-@app.route('/add')
+@app.route('/add', methods=['GET', 'POST'])
 def add_page():
-    return render_template('add.html') # تأكد أن هذا الملف موجود في مجلد templates
+    if request.method == 'POST':
+        # هنا ستضع لاحقاً كود حفظ البيانات في MySQL
+        return "تم استلام طلب الإضافة!"
+    return render_template('add.html')
+
+@app.route('/search')
+def search():
+    # هنا ستضع كود البحث في قاعدة البيانات
+    brand = request.args.get('brand')
+    return f"جاري البحث عن ماركة: {brand}"
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 10000))
