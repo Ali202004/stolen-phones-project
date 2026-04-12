@@ -1,32 +1,17 @@
+<div class="container" style="margin-top: 60px;">
+    <h2>نظام كشف المسروقات</h2>
+    
+    <form action="/search" method="GET">
+        <input type="text" name="imei" placeholder="أدخل رقم الـ IMEI كاملاً">
+        <button type="submit">بحث</button>
+    </form>
 
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="marquee-bar"><marquee>صلى على النبي.. اذكر الله.. لا إله إلا الله</marquee></div>
-    <div class="container" style="margin-top: 60px;">
-        <h2>نظام كشف المسروقات</h2>
-        <input type="text" id="imei" placeholder="أدخل جزء من الـ IMEI">
-        <button onclick="searchIMEI()">بحث ذكي</button>
-        <div id="result"></div>
-        <hr>
-        <h3>تصفح حسب الشركة</h3>
-        <button onclick="filterByBrand('Samsung')">Samsung</button>
-        <button onclick="filterByBrand('Vivo')">Vivo</button>
-        <button onclick="filterByBrand('LT')">LT</button>
-        <div id="results-table"></div>
-        <br><a href="/add">إضافة بلاغ جديد</a>
+    <hr>
+    <h3>تصفح حسب الشركة</h3>
+    <div class="brands">
+        <a href="/search?brand=Samsung"><button>Samsung</button></a>
+        <a href="/search?brand=Vivo"><button>Vivo</button></a>
+        <a href="/search?brand=LT"><button>LT</button></a>
+        <a href="/search?brand=Android"><button>أجهزة أندرويد أخرى</button></a>
     </div>
-    <script>
-        function searchIMEI() {
-            fetch('/?imei=' + document.getElementById('imei').value).then(r => r.text()).then(d => document.getElementById('result').innerHTML = d);
-        }
-        function filterByBrand(brand) {
-            fetch('/search?brand=' + brand).then(r => r.text()).then(d => document.getElementById('results-table').innerHTML = d);
-        }
-    </script>
-</body>
-</html>
+</div>
