@@ -1,29 +1,13 @@
+from flask import Flask
 import os
-import mysql.connector
-from http.server import HTTPServer, BaseHTTPRequestHandler
 
-# إعدادات الاتصال بالسحابة (سيقرأها السيرفر تلقائياً)
-def get_db_connection():
-    return mysql.connector.connect(
-        host=os.environ.get('DB_HOST', 'localhost'),
-        user=os.environ.get('DB_USER', 'root'),
-        password=os.environ.get('DB_PASSWORD', ''),
-        database=os.environ.get('DB_NAME', 'stolen_phones_db')
-    )
+app = Flask(__name__)
 
-class RequestHandler(BaseHTTPRequestHandler):
-    def do_GET(self):
-        # الكود الخاص بك هنا (مع استبدال كل اتصالات db بـ get_db_connection())
-        # مثال:
-        # conn = get_db_connection()
-        # cursor = conn.cursor()
-        # ... إلخ
-        pass
+@app.route('/')
+def home():
+    return "موقع مشروع الهواتف المسروقة يعمل بنجاح!"
 
-# تشغيل السيرفر
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8000))
-    server = HTTPServer(('0.0.0.0', port), RequestHandler)
-    print(f"Server running on port {port}")
-    server.serve_forever()
-
+if __name__ == '__main__':
+    # Render يحدد المنفذ تلقائياً عبر متغير بيئي اسمه PORT
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
