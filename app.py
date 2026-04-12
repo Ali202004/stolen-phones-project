@@ -4,11 +4,9 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# هذا المتغير يجلب الرابط الذي وضعته في Render تلقائياً
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 def get_db():
-    # الاتصال بقاعدة بيانات PostgreSQL
     return psycopg2.connect(DATABASE_URL, sslmode='require')
 
 @app.route('/')
@@ -38,20 +36,6 @@ def add():
         conn.close()
         return "تم حفظ البلاغ بنجاح! <a href='/'>العودة للرئيسية</a>"
     return render_template('add.html')
-
-if __name__ == "__main__":
-    app.run()
-            conn.execute('INSERT INTO reports (brand, imei, city, date, phone) VALUES (?,?,?,?,?)',
-                         (request.form['brand'], request.form['imei'].strip(), request.form['city'], request.form['date'], request.form['phone']))
-            conn.commit()
-            conn.close()
-            return "تم حفظ البلاغ بنجاح! <br> <a href='/'>عودة للرئيسية</a>"
-        except Exception as e:
-            return f"حدث خطأ أثناء الحفظ: {e}"
-    return render_template('add.html')
-
-if __name__ == "__main__":
-    app.run()
 
 if __name__ == "__main__":
     app.run()
