@@ -1,29 +1,47 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+    <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>نظام بلاغات الأجهزة</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body { background: #f8f9fa; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        .hero { background: linear-gradient(135deg, #0d6efd, #0dcaf0); color: white; padding: 2rem; border-radius: 1rem; margin-bottom: 2rem; }
+        .card-custom { border-radius: 1rem; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    </style>
+    <title>نظام بلاغات الأجهزة المفقودة</title>
 </head>
-<body class="bg-light p-4">
-    <div class="container shadow p-4 bg-white rounded">
-        <h2>نظام البلاغات</h2>
-        
-        <form method="POST" class="mb-4">
-            <input type="text" name="search_imei" class="form-control" placeholder="أدخل رقم الـ IMEI للبحث">
-            <button type="submit" class="btn btn-primary mt-2">بحث</button>
-        </form>
-        {% if search_result %} <div class="alert alert-info">{{ search_result }}</div> {% endif %}
+<body>
+    <div class="container py-5" style="max-width: 600px;">
+        <div class="hero text-center">
+            <h1 class="display-5 fw-bold"><i class="bi bi-phone-vibrate"></i> نظام البلاغات الذكي</h1>
+            <p>أبلغ عن جهازك المفقود بكل سهولة</p>
+        </div>
 
-        <hr>
-        
-        <h3>إضافة بلاغ جديد</h3>
-        <form action="/add" method="POST">
-            <input type="text" name="imei" class="form-control mb-2" placeholder="رقم الـ IMEI" required>
-            <input type="text" name="city" class="form-control mb-2" placeholder="المدينة" required>
-            <input type="date" name="date" class="form-control mb-2" required>
-            <input type="tel" name="phone" class="form-control mb-2" placeholder="رقم الهاتف للتواصل" required>
-            <button type="submit" class="btn btn-success">حفظ البلاغ</button>
-        </form>
+        <div class="card card-custom p-4 mb-4">
+            <h4 class="mb-3"><i class="bi bi-search"></i> بحث سريع</h4>
+            <form method="POST">
+                <input type="text" name="search_imei" class="form-control form-control-lg" placeholder="أدخل رقم الـ IMEI هنا...">
+                <button type="submit" class="btn btn-primary w-100 mt-3 btn-lg">بحث عن الجهاز</button>
+            </form>
+        </div>
+
+        <div class="card card-custom p-4">
+            <h4 class="mb-3"><i class="bi bi-plus-circle"></i> إضافة بلاغ جديد</h4>
+            <form action="/add" method="POST">
+                <select name="brand" class="form-select mb-3" required>
+                    <option value="" disabled selected>اختر نوع الجهاز</option>
+                    <option value="Samsung">سامسونج</option><option value="Apple">آيفون</option>
+                    <option value="Xiaomi">شاومي</option><option value="Huawei">هواوي</option>
+                    <option value="Other">أجهزة أخرى</option>
+                </select>
+                <input type="text" name="imei" class="form-control mb-3" placeholder="رقم الـ IMEI" required>
+                <input type="text" name="city" class="form-control mb-3" placeholder="المدينة" required>
+                <input type="date" name="date" class="form-control mb-3" required>
+                <input type="tel" name="phone" class="form-control mb-3" placeholder="رقم الهاتف للتواصل" required>
+                <button type="submit" class="btn btn-success w-100 btn-lg">إرسال البلاغ</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
