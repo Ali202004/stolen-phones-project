@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 
+# تعريف التطبيق
 app = Flask(__name__)
 
 # الصفحة الرئيسية
@@ -7,20 +8,25 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
-# صفحة إضافة بلاغ (تعمل عند الزيارة و عند الإرسال)
+# صفحة إضافة بلاغ
 @app.route('/add', methods=['GET', 'POST'])
 def add_phone():
     if request.method == 'POST':
-        # هنا ستضع كود حفظ البيانات في قاعدة البيانات مستقبلاً
+        # هنا ستضع لاحقاً كود حفظ البيانات في قاعدة البيانات
         return "تم حفظ البلاغ بنجاح! <br> <a href='/'>العودة للرئيسية</a>"
     return render_template('add.html')
 
-# مسار البحث (يتم استدعاؤه عند الضغط على زر البحث)
+# صفحة تسجيل الدخول
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
+
+# مسار البحث
 @app.route('/search')
 def search():
     brand = request.args.get('brand')
-    return f"جاري البحث في قاعدة البيانات عن ماركة: {brand} <br> <a href='/'>العودة للرئيسية</a>"
+    return f"جاري البحث عن ماركة: {brand} <br> <a href='/'>العودة للرئيسية</a>"
 
-if __name__ == '__main__':
-    # Render سيستخدم المتغير PORT تلقائياً
-    app.run()
+# ملاحظة هامة:
+# عند استخدام Gunicorn، لا حاجة لإضافة 'if __name__ == '__main__': app.run()'
+# لأن Gunicorn سيتولى عملية التشغيل.
