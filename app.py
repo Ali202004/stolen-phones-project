@@ -4,6 +4,7 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
+# جلب رابط قاعدة البيانات من الإعدادات التي وضعناها في Render
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 def get_db():
@@ -35,6 +36,10 @@ def add():
         cur.close()
         conn.close()
         return "تم حفظ البلاغ بنجاح! <a href='/'>العودة للرئيسية</a>"
+    return render_template('add.html')
+
+if __name__ == "__main__":
+    app.run()        return "تم حفظ البلاغ بنجاح! <a href='/'>العودة للرئيسية</a>"
     return render_template('add.html')
 
 if __name__ == "__main__":
