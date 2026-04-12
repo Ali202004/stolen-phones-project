@@ -1,40 +1,97 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة بلاغ جديد</title>
     <style>
-        body { background: #eef2f3; display: flex; align-items: center; justify-content: center; height: 100vh; }
-        .card { width: 400px; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        /* ضبط خلفية الصفحة بالكامل */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #9face6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* تنسيق "الكارت" الأبيض ليصبح بنفس الأبعاد المطلوبة */
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h2 { text-align: center; color: #333; margin-bottom: 20px; }
+
+        .form-group { margin-bottom: 15px; }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box; /* لضمان عدم خروج الحقول عن الإطار */
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .alert-note {
+            color: #d9534f;
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <h4 class="text-center mb-4">إضافة بلاغ مفقود</h4>
-        <form action="/add" method="POST">
-            <select name="brand" class="form-select mb-3"><option>سامسونج</option><option>فيفو</option><option>LT</option></select>
-            <input type="text" name="imei" class="form-control mb-3" placeholder="رقم الـ IMEI" required>
-            <input type="text" name="city" class="form-control mb-3" placeholder="المدينة" required>
-            <input type="date" name="date" class="form-control mb-3" required>
-            <input type="tel" name="phone" class="form-control mb-3" placeholder="رقم الهاتف" required>
-            <button class="btn btn-success w-100">حفظ البلاغ</button>
-        </form>
-        <a href="/" class="btn btn-link w-100 mt-2">العودة للرئيسية</a>
-    </div>
+
+<div class="card">
+    <h2>إضافة بلاغ مفقود</h2>
+    <p class="alert-note">⚠️ تنبيه: العثور على الهاتف يتطلب دفع 5000 ريال للمهندس.</p>
+    
+    <form action="/add" method="POST">
+        <div class="form-group">
+            <input type="text" name="imei" placeholder="رقم الـ IMEI" required>
+        </div>
+        <div class="form-group">
+            <input type="tel" name="phone" placeholder="رقم الهاتف" required>
+        </div>
+        <div class="form-group">
+            <select name="brand">
+                <option value="Vivo">Vivo</option>
+                <option value="Samsung">Samsung</option>
+                <option value="LT">LT</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" name="city" placeholder="المدينة" required>
+        </div>
+        <div class="form-group">
+            <input type="date" name="date" required>
+        </div>
+        <button type="submit">حفظ البلاغ</button>
+    </form>
+</div>
+
 </body>
 </html>
-        .form-control, .form-select {
-            border-radius: 10px; /* حواف الحقول ناعمة */
-            padding: 12px 15px;
-            border: 1px solid #e1e8ed;
-            background-color: #fcfcfc;
-            margin-bottom: 15px;
-        }
-
-        .form-control:focus, .form-select:focus {
-            box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.1); /* لون تركيز أخضر ناعم */
-            border-color: #28a745;
-        }
-
         .btn-success-custom {
             background: linear-gradient(135deg, #28a745 0%, #218838 100%);
             border: none;
