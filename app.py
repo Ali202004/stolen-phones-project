@@ -2,26 +2,30 @@ from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+# قاعدة بيانات وهمية للتجربة (ستربطها لاحقاً بـ MySQL)
+reports = []
 
-@app.route('/add', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    search_result = None
+    if request.method == 'POST' and 'search_imei' in request.form:
+        imei = request.form.get('search_imei')
+        # بحث بسيط في القائمة
+        search_result = next((r for r in reports if r['imei'] == imei), "لم يتم العثور على الجهاز")
+    
+    return render_template('index.html', search_result=search_result)
+
+@app.route('/add', methods=['POST'])
 def add_phone():
-    if request.method == 'POST':
-        # استقبال البيانات من النموذج
-        imei = request.form.get('imei')
-        city = request.form.get('city')
-        date = request.form.get('date')
-        
-        # هنا ستضع لاحقاً كود الحفظ في قاعدة البيانات
-        return f"تم استلام بيانات الجهاز {imei} في {city} بتاريخ {date}. تم الحفظ بنجاح!"
-    return render_template('add.html')
-
-@app.route('/search', methods=['GET'])
-def search():
-    brand = request.args.get('brand')
-    return f"جاري البحث عن الجهاز في قاعدة البيانات: {brand}"
+    # استقبال بيانات البلاغ
+    new_report = {
+        'imei': request.form.get('imei'),
+        'city': request.form.get('city'),
+        'date': request.form.get('date'),
+        'phone': request.form.get('phone')
+    }
+    reports.append(new_report)
+    return "تم حفظ البلاغ بنجاح! <script>setTimeout(function(){window.location.href='/';}, 2000);</script>"
 
 if __name__ == "__main__":
     import os
