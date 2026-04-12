@@ -39,13 +39,4 @@ def add():
     return render_template('add.html')
 
 if __name__ == "__main__":
-    app.run()        return "تم حفظ البلاغ بنجاح! <a href='/'>العودة للرئيسية</a>"
-    return render_template('add.html')
-
-if __name__ == "__main__":
-    app.run()
-        return "تم حفظ البلاغ بنجاح! <a href='/'>العودة للرئيسية</a>"
-    return render_template('add.html')
-
-if __name__ == "__main__":
     app.run()
