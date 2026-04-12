@@ -29,11 +29,17 @@ def add():
     if request.method == 'POST':
         conn = get_db()
         cur = conn.cursor()
+        # التعديل هنا: استخدمنا %s بدلاً من ?
         cur.execute('INSERT INTO reports (brand, imei, city, date, phone) VALUES (%s, %s, %s, %s, %s)',
                     (request.form['brand'], request.form['imei'], request.form['city'], request.form['date'], request.form['phone']))
         conn.commit()
         cur.close()
         conn.close()
+        return "تم حفظ البلاغ بنجاح! <a href='/'>العودة للرئيسية</a>"
+    return render_template('add.html')
+
+if __name__ == "__main__":
+    app.run()
         return "تم حفظ البلاغ بنجاح! <a href='/'>العودة للرئيسية</a>"
     return render_template('add.html')
 
