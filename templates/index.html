@@ -2,29 +2,24 @@
 <html lang="ar" dir="rtl">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background: #f0f2f5; text-align: center; padding-top: 50px; }
-        .box { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; margin: auto; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    </style>
+    <style>body { background: #f8f9fa; padding-top: 50px; text-align: center; }</style>
 </head>
 <body>
-    <div class="box">
+    <div class="container">
         <h3>نظام كشف المسروقات</h3>
-        <form action="/search" method="POST">
-            <input type="text" name="imei" class="form-control mb-3" placeholder="أدخل رقم الـ IMEI" required>
-            <button class="btn btn-primary w-100">بحث</button>
+        <form action="/search" method="POST" class="mt-4">
+            <input type="text" name="imei" class="form-control w-50 mx-auto" placeholder="أدخل رقم الـ IMEI" required>
+            <button class="btn btn-primary mt-2">بحث</button>
         </form>
         {% if report %}
-        <div class="alert alert-danger mt-3">
-            الجهاز مفقود في مدينة {{ report[3] }} <br>
-            التاريخ: {{ report[4] }} <br>
-            للتواصل: {{ report[5] }}
+        <div class="alert alert-danger mt-3 w-50 mx-auto">
+            الجهاز مفقود في {{ report[2] }} بتاريخ {{ report[3] }} <br>
+            للتواصل: {{ report[4] }}
         </div>
         {% elif imei %}
-        <div class="alert alert-success mt-3">الجهاز غير موجود في قائمة البلاغات.</div>
+        <div class="alert alert-success mt-3 w-50 mx-auto">الجهاز غير موجود في قاعدة بيانات المفقودات.</div>
         {% endif %}
-        <hr>
-        <a href="/add" class="btn btn-success">إضافة بلاغ جديد</a>
+        <br><a href="/add" class="btn btn-success">إضافة بلاغ جديد</a>
     </div>
 </body>
 </html>
