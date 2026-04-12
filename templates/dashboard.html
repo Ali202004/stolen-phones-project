@@ -1,1 +1,9 @@
-
+<table class="table">
+    <thead><tr><th>الماركة</th><th>IMEI</th><th>المدينة</th><th>إجراء</th></tr></thead>
+    <tbody>
+        {% for r in reports %}
+        <tr><td>{{r[1]}}</td><td>{{r[2]}}</td><td>{{r[3]}}</td>
+            <td><a href="/delete/{{r[0]}}" class="btn btn-danger">حذف</a></td></tr>
+        {% endfor %}
+    </tbody>
+</table>
