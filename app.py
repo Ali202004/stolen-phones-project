@@ -1,35 +1,65 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, flash
+import sqlite3
 
 app = Flask(__name__)
+app.secret_key = 'Mazen_202004' # لتأمين الجلسات
 
-# قاعدة بيانات وهمية (ستقوم بربطها بـ MySQL لاحقاً)
-reports = []
+# إعداد قاعدة البيانات
+def init_db():
+    conn = sqlite3.connect('data.db')
+    conn.execute('CREATE TABLE IF NOT EXISTS reports (id INTEGER PRIMARY KEY, brand TEXT, imei TEXT, city TEXT, phone TEXT)')
+    conn.commit()
+    conn.close()
 
-# الصفحة الرئيسية (مخصصة للبحث فقط)
-@app.route('/', methods=['GET', 'POST'])
+init_db()
+
+@app.route('/')
 def index():
-    search_result = None
-    if request.method == 'POST':
-        imei = request.form.get('search_imei')
-        result = next((r for r in reports if r.get('imei') == imei), None)
-        search_result = f"الجهاز موجود: {result}" if result else "لم يتم العثور على الجهاز"
-    return render_template('index.html', search_result=search_result)
+    return render_template('index.html')
 
-# صفحة الإبلاغ (تفتح كصفحة منفصلة)
+@app.route('/search', methods=['POST'])
+def search():
+    imei = request.form.get('imei')
+    conn = sqlite3.connect('data.db')
+    report = conn.execute('SELECT * FROM reports WHERE imei = ?', (imei,)).fetchone()
+    conn.close()
+    return render_template('index.html', report=report, imei=imei)
+
 @app.route('/add', methods=['GET', 'POST'])
-def add_phone():
+def add():
     if request.method == 'POST':
-        new_report = {
-            'imei': request.form.get('imei'),
-            'city': request.form.get('city'),
-            'date': request.form.get('date'),
-            'phone': request.form.get('phone')
-        }
-        reports.append(new_report)
-        return "تم حفظ البلاغ بنجاح! <script>setTimeout(function(){window.location.href='/';}, 2000);</script>"
+        conn = sqlite3.connect('data.db')
+        conn.execute('INSERT INTO reports (brand, imei, city, phone) VALUES (?,?,?,?)',
+                     (request.form['brand'], request.form['imei'], request.form['city'], request.form['phone']))
+        conn.commit()
+        conn.close()
+        flash('تم حفظ البلاغ بنجاح!')
+        return redirect(url_for('index'))
     return render_template('add.html')
 
+@app.route('/admin', methods=['GET', 'POST'])
+def admin():
+    if request.method == 'POST':
+        if request.form['username'] == 'Mazen' and request.form['password'] == '202004':
+            session['logged_in'] = True
+            return redirect(url_for('dashboard'))
+    return render_template('admin_login.html')
+
+@app.route('/dashboard')
+def dashboard():
+    if not session.get('logged_in'): return redirect(url_for('admin'))
+    conn = sqlite3.connect('data.db')
+    reports = conn.execute('SELECT * FROM reports').fetchall()
+    conn.close()
+    return render_template('dashboard.html', reports=reports)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    conn = sqlite3.connect('data.db')
+    conn.execute('DELETE FROM reports WHERE id = ?', (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('dashboard'))
+
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(debug=True)
