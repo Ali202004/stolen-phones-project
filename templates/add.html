@@ -1,1 +1,19 @@
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><link rel="stylesheet" href="style.css"></head>
+<body>
+    <div class="container">
+        <h2>إضافة بلاغ مفقود</h2>
+        <div style="color:red; font-size: 12px; margin-bottom:10px;">⚠️ تنبيه: العثور على الهاتف يتطلب دفع 5000 ريال للمهندس.</div>
+        <form action="/add_process" method="POST">
+            <input type="text" name="imei" placeholder="IMEI" required>
+            <input type="text" name="phone" placeholder="رقم الهاتف" required>
+            <select name="brand"><option value="Samsung">Samsung</option><option value="Vivo">Vivo</option><option value="LT">LT</option></select>
+            <input type="text" name="city" placeholder="المدينة" required>
+            <input type="date" name="date_stolen" required>
+            <button type="submit">حفظ البلاغ</button>
+        </form>
+    </div>
+</body>
+</html>
