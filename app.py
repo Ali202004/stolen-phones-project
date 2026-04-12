@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 
 app = Flask(__name__)
@@ -6,8 +6,7 @@ app.secret_key = 'Mazen_202004'
 
 def init_db():
     conn = sqlite3.connect('data.db')
-    conn.execute('''CREATE TABLE IF NOT EXISTS reports 
-                    (id INTEGER PRIMARY KEY, brand TEXT, imei TEXT, city TEXT, date TEXT, phone TEXT)''')
+    conn.execute('CREATE TABLE IF NOT EXISTS reports (id INTEGER PRIMARY KEY, brand TEXT, imei TEXT, city TEXT, date TEXT, phone TEXT)')
     conn.commit()
     conn.close()
 
@@ -21,7 +20,7 @@ def index():
 def search():
     imei = request.form.get('imei')
     conn = sqlite3.connect('data.db')
-    report = conn.execute('SELECT brand, imei, city, date, phone FROM reports WHERE imei = ?', (imei,)).fetchone()
+    report = conn.execute('SELECT * FROM reports WHERE imei = ?', (imei,)).fetchone()
     conn.close()
     return render_template('index.html', report=report, imei=imei)
 
@@ -33,7 +32,11 @@ def add():
                      (request.form['brand'], request.form['imei'], request.form['city'], request.form['date'], request.form['phone']))
         conn.commit()
         conn.close()
-        return "تم حفظ البلاغ بنجاح! <script>setTimeout(function(){window.location.href='/';}, 2000);</script>"
+        return "تم حفظ البلاغ بنجاح! <br> <a href='/'>عودة للرئيسية</a>"
+    return render_template('add.html')
+
+if __name__ == "__main__":
+    app.run()
     return render_template('add.html')
 
 @app.route('/admin', methods=['GET', 'POST'])
