@@ -1,20 +1,15 @@
-from flask import Flask, render_template, request
-import sqlite3
 import os
+import psycopg2
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-# نستخدم مساراً مطلقاً لقاعدة البيانات
-DB_PATH = 'data.db'
+# هذا المتغير يجلب الرابط الذي وضعته في Render تلقائياً
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-def init_db():
-    conn = sqlite3.connect(DB_PATH)
-    conn.execute('''CREATE TABLE IF NOT EXISTS reports 
-                    (id INTEGER PRIMARY KEY, brand TEXT, imei TEXT, city TEXT, date TEXT, phone TEXT)''')
-    conn.commit()
-    conn.close()
-
-init_db()
+def get_db():
+    # الاتصال بقاعدة بيانات PostgreSQL
+    return psycopg2.connect(DATABASE_URL, sslmode='require')
 
 @app.route('/')
 def index():
@@ -23,17 +18,29 @@ def index():
 @app.route('/search', methods=['POST'])
 def search():
     imei = request.form.get('imei', '').strip()
-    conn = sqlite3.connect(DB_PATH)
-    # استخدام الاستعلام للبحث بدقة
-    report = conn.execute('SELECT brand, imei, city, date, phone FROM reports WHERE imei = ?', (imei,)).fetchone()
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute('SELECT brand, imei, city, date, phone FROM reports WHERE imei = %s', (imei,))
+    report = cur.fetchone()
+    cur.close()
     conn.close()
     return render_template('index.html', report=report, imei=imei, searched=True)
 
 @app.route('/add', methods=['GET', 'POST'])
 def add():
     if request.method == 'POST':
-        try:
-            conn = sqlite3.connect(DB_PATH)
+        conn = get_db()
+        cur = conn.cursor()
+        cur.execute('INSERT INTO reports (brand, imei, city, date, phone) VALUES (%s, %s, %s, %s, %s)',
+                    (request.form['brand'], request.form['imei'], request.form['city'], request.form['date'], request.form['phone']))
+        conn.commit()
+        cur.close()
+        conn.close()
+        return "تم حفظ البلاغ بنجاح! <a href='/'>العودة للرئيسية</a>"
+    return render_template('add.html')
+
+if __name__ == "__main__":
+    app.run()
             conn.execute('INSERT INTO reports (brand, imei, city, date, phone) VALUES (?,?,?,?,?)',
                          (request.form['brand'], request.form['imei'].strip(), request.form['city'], request.form['date'], request.form['phone']))
             conn.commit()
