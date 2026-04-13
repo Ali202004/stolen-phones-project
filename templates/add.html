@@ -4,39 +4,27 @@
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #f0f2f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; }
+        body { background: #f0f2f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; }
+        .alert-mini { background: #fff3cd; color: #856404; padding: 8px; border-radius: 10px; margin-bottom: 15px; font-size: 0.85rem; text-align: center; border: 1px solid #ffeeba; }
     </style>
 </head>
 <body>
     <div class="card">
-        <h4 class="text-center">إضافة بلاغ</h4>
+        <h4 class="text-center mb-3">إضافة بلاغ</h4>
+        
+        <div class="alert-mini">
+            ⚠️ تنبيه: يتطلب دفع 5000 ريال للمهندس عند العثور على الهاتف.
+        </div>
+
         <form action="/add" method="POST">
             <input type="text" name="imei" class="form-control mb-2" placeholder="رقم الـ IMEI" required>
             <input type="tel" name="phone" class="form-control mb-2" placeholder="رقم الهاتف" required>
-            <select name="brand" class="form-select mb-2"><option>Vivo</option><option>Samsung</option><option>LT</option></select>
-            <input type="text" name="city" class="form-control mb-2" placeholder="المدينة" required>
-            <input type="date" name="date" class="form-control mb-2" required>
-            <button class="btn btn-success w-100">حفظ البلاغ</button>
-        </form>
-    </div>
-</body>
-</html><html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background: #f0f2f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h4 class="text-center">إضافة بلاغ</h4>
-        <form action="/add" method="POST">
-            <input type="text" name="imei" class="form-control mb-2" placeholder="رقم الـ IMEI" required>
-            <input type="tel" name="phone" class="form-control mb-2" placeholder="رقم الهاتف" required>
-            <select name="brand" class="form-select mb-2"><option>Vivo</option><option>Samsung</option><option>LT</option></select>
+            <select name="brand" class="form-select mb-2">
+                <option>Vivo</option>
+                <option>Samsung</option>
+                <option>LT</option>
+            </select>
             <input type="text" name="city" class="form-control mb-2" placeholder="المدينة" required>
             <input type="date" name="date" class="form-control mb-2" required>
             <button class="btn btn-success w-100">حفظ البلاغ</button>
