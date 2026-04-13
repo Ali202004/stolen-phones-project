@@ -1,1 +1,18 @@
-
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head><meta charset="UTF-8"><title>النتائج</title></head>
+<body>
+    <h1>{{ title }}</h1>
+    <a href="/">العودة للرئيسية</a>
+    <table border="1" style="width:100%; text-align:center; margin-top:20px;">
+        <tr style="background:#f2f2f2;">
+            <th>النوع</th><th>IMEI</th><th>المدينة</th><th>التاريخ</th><th>الهاتف</th>
+        </tr>
+        {% for row in reports %}
+        <tr>
+            <td>{{ row[1] }}</td><td>{{ row[2] }}</td><td>{{ row[3] }}</td><td>{{ row[4] }}</td><td>{{ row[5] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
