@@ -3,7 +3,6 @@ import psycopg2
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
-
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 def get_db():
@@ -19,16 +18,36 @@ def add():
         try:
             conn = get_db()
             cur = conn.cursor()
-            query = "INSERT INTO reports (brand, imei, city, date, phone) VALUES (%s, %s, %s, %s, %s)"
-            data = (request.form['brand'], request.form['imei'], request.form['city'], request.form['date'], request.form['phone'])
-            cur.execute(query, data)
+            cur.execute("INSERT INTO reports (brand, imei, city, date, phone) VALUES (%s, %s, %s, %s, %s)",
+                        (request.form['brand'], request.form['imei'], request.form['city'], request.form['date'], request.form['phone']))
             conn.commit()
             cur.close()
             conn.close()
-            return "تم الحفظ بنجاح! <a href='/'>العودة</a>"
+            return "تم الحفظ بنجاح! <a href='/'>العودة للرئيسية</a>"
         except Exception as e:
-            return f"خطأ: {str(e)}"
+            return f"خطأ في الحفظ: {str(e)}"
     return render_template('add.html')
+
+@app.route('/search', methods=['GET'])
+def search():
+    imei = request.args.get('imei')
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM reports WHERE imei = %s", (imei,))
+    results = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('reports.html', reports=results, title="نتائج البحث")
+
+@app.route('/reports')
+def reports():
+    conn = get_db()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM reports ORDER BY id DESC")
+    rows = cur.fetchall()
+    cur.close()
+    conn.close()
+    return render_template('reports.html', reports=rows, title="جميع البلاغات المسجلة")
 
 if __name__ == "__main__":
     app.run()
