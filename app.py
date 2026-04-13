@@ -1,8 +1,11 @@
 import os
 import psycopg2
+from psycopg2.extras import RealDictCursor
 from flask import Flask, render_template, request
 
 app = Flask(__name__)
+
+# الاتصال بقاعدة البيانات
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 def get_db():
@@ -23,7 +26,7 @@ def add():
             conn.commit()
             cur.close()
             conn.close()
-            return "تم الحفظ بنجاح! <a href='/'>العودة للرئيسية</a>"
+            return "تم الحفظ بنجاح! <br><br> <a href='/' class='btn btn-primary'>العودة للرئيسية</a>"
         except Exception as e:
             return f"خطأ في الحفظ: {str(e)}"
     return render_template('add.html')
@@ -32,22 +35,24 @@ def add():
 def search():
     imei = request.args.get('imei')
     conn = get_db()
-    cur = conn.cursor()
+    # استخدام RealDictCursor لجعل البيانات قابلة للقراءة في الـ HTML
+    cur = conn.cursor(cursor_factory=RealDictCursor)
     cur.execute("SELECT * FROM reports WHERE imei = %s", (imei,))
     results = cur.fetchall()
     cur.close()
     conn.close()
-    return render_template('reports.html', reports=results, title="نتائج البحث")
+    return render_template('reports.html', reports=results)
 
 @app.route('/reports')
 def reports():
     conn = get_db()
-    cur = conn.cursor()
+    # استخدام RealDictCursor لجعل البيانات قابلة للقراءة في الـ HTML
+    cur = conn.cursor(cursor_factory=RealDictCursor)
     cur.execute("SELECT * FROM reports ORDER BY id DESC")
     rows = cur.fetchall()
     cur.close()
     conn.close()
-    return render_template('reports.html', reports=rows, title="جميع البلاغات المسجلة")
+    return render_template('reports.html', reports=rows)
 
 if __name__ == "__main__":
     app.run()
