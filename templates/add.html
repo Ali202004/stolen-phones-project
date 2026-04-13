@@ -7,6 +7,7 @@
         body { background: #f0f2f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
         .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; }
         .alert-mini { background: #fff3cd; color: #856404; padding: 8px; border-radius: 10px; margin-bottom: 15px; font-size: 0.85rem; text-align: center; border: 1px solid #ffeeba; }
+        .form-label { font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; display: block; color: #333; }
     </style>
 </head>
 <body>
@@ -20,14 +21,25 @@
         <form action="/add" method="POST">
             <input type="text" name="imei" class="form-control mb-2" placeholder="رقم الـ IMEI" required>
             <input type="tel" name="phone" class="form-control mb-2" placeholder="رقم الهاتف" required>
+            
             <select name="brand" class="form-select mb-2">
-                <option>Vivo</option>
-                <option>Samsung</option>
-                <option>LT</option>
+                <option value="" disabled selected>اختر نوع الجهاز</option>
+                <option value="Vivo">Vivo</option>
+                <option value="Samsung">Samsung</option>
+                <option value="LT">LT</option>
+                <option value="Huawei">Huawei</option>
+                <option value="iPhone">iPhone</option>
+                <option value="TrackPhone">TrackPhone</option>
+                <option value="Redmi">Redmi</option>
+                <option value="أجهزة أخرى">أجهزة أخرى</option>
             </select>
+            
             <input type="text" name="city" class="form-control mb-2" placeholder="المدينة" required>
+            
+            <label class="form-label">تاريخ الفقدان:</label>
             <input type="date" name="date" class="form-control mb-2" required>
-            <button class="btn btn-success w-100">حفظ البلاغ</button>
+            
+            <button class="btn btn-success w-100 mt-2">حفظ البلاغ</button>
         </form>
     </div>
 </body>
