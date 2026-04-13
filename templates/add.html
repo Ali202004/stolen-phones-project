@@ -2,45 +2,71 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إضافة بلاغ جديد</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background: #f0f2f5; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 95%; max-width: 400px; }
-        .alert-mini { background: #fff3cd; color: #856404; padding: 8px; border-radius: 10px; margin-bottom: 15px; font-size: 0.85rem; text-align: center; border: 1px solid #ffeeba; }
-        .form-label { font-size: 0.9rem; font-weight: bold; margin-bottom: 5px; display: block; color: #333; }
+        body { background-color: #f8f9fa; }
+        .card { border: none; border-radius: 1rem; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); }
+        .alert-custom { background-color: #fff3cd; border-right: 5px solid #ffc107; }
+        .btn-success { background-color: #198754; transition: 0.3s; }
+        .btn-success:hover { background-color: #157347; transform: translateY(-2px); }
     </style>
 </head>
-<body>
-    <div class="card">
-        <h4 class="text-center mb-3">إضافة بلاغ</h4>
-        
-        <div class="alert-mini">
-            ⚠️ تنبيه: في حال تم العثور على الهاتف يجب  دفع 5000 ريال للمهندس عند العثور على الهاتف.
-        </div>
+<body class="d-flex align-items-center justify-content-center min-vh-100">
 
-        <form action="/add" method="POST">
-            <input type="text" name="imei" class="form-control mb-2" placeholder="رقم الـ IMEI" required>
-            <input type="tel" name="phone" class="form-control mb-2" placeholder=" رقم الهاتف للتواصل" required>
-            
-            <select name="brand" class="form-select mb-2">
-                <option value="" disabled selected>اختر نوع الجهاز</option>
-                <option value="Vivo">Vivo</option>
-                <option value="Samsung">Samsung</option>
-                <option value="LT">LT</option>
-                <option value="Huawei">Huawei</option>
-                <option value="iPhone">iPhone</option>
-                <option value="TrackPhone">TrackPhone</option>
-                <option value="Redmi">Redmi</option>
-                <option value="أجهزة أخرى">أجهزة أخرى</option>
-            </select>
-            
-            <input type="text" name="city" class="form-control mb-2" placeholder="المدينة" required>
-            
-            <label class="form-label">تاريخ الفقدان:</label>
-            <input type="date" name="date" class="form-control mb-2" required>
-            
-            <button class="btn btn-success w-100 mt-2">حفظ البلاغ</button>
-        </form>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card p-4">
+                    <h3 class="text-center mb-4 text-primary">إضافة بلاغ جديد</h3>
+                    
+                    <div class="alert alert-custom mb-4" role="alert">
+                        <strong>⚠️ تنبيه:</strong> يتطلب دفع 5000 ريال للمهندس عند العثور على الهاتف.
+                    </div>
+
+                    <form action="/add" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">رقم الـ IMEI</label>
+                            <input type="text" name="imei" class="form-control" placeholder="أدخل 15 رقم" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="tel" name="phone" class="form-control" placeholder="00967XXXXXXXX" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">نوع الجهاز</label>
+                            <select name="brand" class="form-select">
+                                <option value="" disabled selected>اختر النوع...</option>
+                                <option value="Vivo">Vivo</option>
+                                <option value="Samsung">Samsung</option>
+                                <option value="LT">LT</option>
+                                <option value="Huawei">Huawei</option>
+                                <option value="iPhone">iPhone</option>
+                                <option value="TrackPhone">TrackPhone</option>
+                                <option value="Redmi">Redmi</option>
+                                <option value="أخرى">أجهزة أخرى</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">المدينة</label>
+                            <input type="text" name="city" class="form-control" placeholder="اسم المدينة" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">تاريخ الفقدان</label>
+                            <input type="date" name="date" class="form-control" required>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success w-100 btn-lg shadow-sm">حفظ البلاغ</button>
+                    </form>
+                    <a href="/" class="btn btn-link text-decoration-none mt-3 text-center d-block">العودة للرئيسية</a>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
