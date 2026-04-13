@@ -1,29 +1,35 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
     <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام تتبع الأجهزة المفقودة</title>
     <style>
-        body { background: linear-gradient(135deg, #1e3c72, #2a5298); min-height: 100vh; color: white; display: flex; align-items: center; justify-content: center; }
-        .hero { background: rgba(255, 255, 255, 0.1); padding: 40px; border-radius: 25px; backdrop-filter: blur(10px); width: 90%; max-width: 450px; text-align: center; }
-        .btn-custom { background: #00d2ff; color: white; border: none; padding: 12px; border-radius: 10px; width: 100%; }
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+        .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); display: inline-block; }
+        input { padding: 10px; width: 250px; border: 1px solid #ccc; border-radius: 5px; margin-bottom: 10px; }
+        button { padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background-color: #218838; }
+        .links { margin-top: 20px; }
+        a { text-decoration: none; color: #007bff; margin: 0 10px; }
     </style>
 </head>
 <body>
-    <div class="hero">
-        <h3>نظام كشف المسروقات</h3>
-        <form action="/search" method="POST" class="mt-4">
-            <input type="text" name="imei" class="form-control mb-3" placeholder="أدخل رقم الـ IMEI للبحث" required>
-            <button class="btn btn-custom">بحث عن الجهاز</button>
+    <div class="container">
+        <h1>نظام تتبع الأجهزة المفقودة</h1>
+        <p>ابحث عن جهازك باستخدام رقم الـ IMEI</p>
+        
+        <form action="/search" method="GET">
+            <input type="text" name="imei" placeholder="أدخل رقم الـ IMEI المكون من 15 رقم" required>
+            <br>
+            <button type="submit">بحث عن الجهاز</button>
         </form>
-        {% if searched %}
-            {% if report %}
-                <div class="alert alert-danger mt-3">الجهاز موجود في قاعدة البيانات: مفقود في {{ report[2] }} للتواصل: {{ report[4] }}</div>
-            {% else %}
-                <div class="alert alert-success mt-3">الجهاز غير موجود (سليم).</div>
-            {% endif %}
-        {% endif %}
-        <br><a href="/add" class="text-white">إضافة بلاغ جديد</a>
+
+        <div class="links">
+            <a href="/add">➕ إضافة بلاغ جديد</a>
+            <span> | </span>
+            <a href="/reports">📋 عرض كل البلاغات</a>
+        </div>
     </div>
 </body>
 </html>
