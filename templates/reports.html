@@ -16,14 +16,17 @@
         </div>
 
         {% if not reports %}
-            <div class="alert alert-warning text-center">لا توجد بلاغات حالياً.</div>
+            <div class="alert alert-warning text-center">عذراً، لا توجد نتائج لهذا البحث.</div>
         {% else %}
             <div class="table-responsive">
                 <table class="table table-striped align-middle">
                     <thead class="table-dark">
                         <tr>
-                            <th>IMEI</th><th>النوع</th><th>المدينة</th><th>التاريخ</th>
-                            {% if is_admin %} <th>إجراءات</th> {% endif %}
+                            <th>IMEI</th>
+                            <th>النوع</th>
+                            <th>المدينة</th>
+                            <th>رقم الهاتف</th> <th>التاريخ</th>
+                            {% if is_admin %} <th>تحكم</th> {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -32,10 +35,10 @@
                             <td>{{ report.imei }}</td>
                             <td>{{ report.brand }}</td>
                             <td>{{ report.city }}</td>
-                            <td>{{ report.date }}</td>
+                            <td>{{ report.phone }}</td> <td>{{ report.date }}</td>
                             {% if is_admin %}
                             <td>
-                                <form action="/delete/{{ report.id }}" method="POST" onsubmit="return confirm('حذف نهائي؟');">
+                                <form action="/delete/{{ report.id }}" method="POST" onsubmit="return confirm('هل أنت متأكد من الحذف؟');">
                                     <button class="btn btn-danger btn-sm">حذف</button>
                                 </form>
                             </td>
